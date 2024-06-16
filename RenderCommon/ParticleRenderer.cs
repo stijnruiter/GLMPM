@@ -55,11 +55,11 @@ namespace RenderCommon
             GL.VertexAttribDivisor(_particleShader.GetAttribLocation("particle"), 1);
         }
 
-        public void Draw(Matrix4 viewMatrix, Particle2D[] data) 
+        public void Draw(Matrix4 viewMatrix, Vector2 viewportSize, Particle2D[] data) 
         {
             _particleShader.Use();
             _particleShader.SetUniform("view", viewMatrix);
-
+            _particleShader.SetUniform("resolution", viewportSize);
             _vao.Bind();
             _particleVbo.SetData(data, BufferUsageHint.StreamDraw);
             GL.DrawArraysInstanced(PrimitiveType.Triangles, 0, 6, data.Length);

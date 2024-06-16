@@ -66,7 +66,7 @@ public class Window : GameWindow
         GL.Clear(ClearBufferMask.ColorBufferBit);
 
         _rectangleRenderer.Draw(ViewMatrix);
-        _particleRenderer.Draw(ViewMatrix, _particles);
+        _particleRenderer.Draw(ViewMatrix, ViewportSize, _particles);
 
         SwapBuffers();
     }
@@ -108,7 +108,7 @@ public class Window : GameWindow
             if (scaleX < scaleY)
             {
                 right = ViewportSize.X / ViewportSize.Y * frame.Height + left;
-            } 
+            }
             else
             {
                 top = ViewportSize.Y / ViewportSize.X * frame.Width + bottom;
