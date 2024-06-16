@@ -45,10 +45,10 @@ internal class RectangleRenderer : IDisposable
         _vbo.Dispose();
     }
 
-    public void Draw(Matrix4 view)
+    public void Draw(Matrix4 projection)
     {
         _shader.Use();
-        _shader.SetUniform("view", view);
+        _shader.SetUniform("projection", projection);
         _vao.Bind();
         GL.DrawArrays(PrimitiveType.Triangles, 0, 6);
     }

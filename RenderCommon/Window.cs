@@ -8,15 +8,6 @@ namespace RenderCommon;
 
 public class Window : GameWindow
 {
-    private Matrix4 ViewMatrix { get; set; }
-
-    private Particle2D[] _particles;
-    private RectangleRenderer _rectangleRenderer;
-    private ParticleRenderer _particleRenderer;
-    private GridRenderer _gridRenderer;
-    private Rect _domain;
-    private Vector2 ViewportSize;
-
     public Window(int width, int height, string title)
         : base(GameWindowSettings.Default, NativeWindowSettings.Default)
     {
@@ -31,35 +22,18 @@ public class Window : GameWindow
         base.OnLoad();
 
         GL.ClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-        _particleRenderer = new ParticleRenderer();
-        _particles = [
+        ParticleRenderer = new ParticleRenderer();
+        Particles = [
             new Particle2D(10f, -3f, .5f),
             new Particle2D(15f, 0f, .25f),
             new Particle2D(20f, 3f, 1.0f),
         ];
-        _domain = GetContainingRectangle(_particles, 1f);
-        UpdateViewMatrix();
-        _rectangleRenderer = new RectangleRenderer(_domain);
-        _gridRenderer = new GridRenderer(_domain);
+        Domain = GetContainingRectangle(Particles, 1f);
+        UpdateProjection();
+        RectangleRenderer = new RectangleRenderer(Domain);
+        GridRenderer = new GridRenderer(Domain);
     }
 
-    private Rect GetContainingRectangle(Particle2D[] particles, float expand = 0.0f)
-    {
-        var l =  float.MaxValue;
-        var r = float.MinValue;
-        var b = float.MaxValue;
-        var t = float.MinValue;
-        foreach (var particle in particles)
-        {
-            l = Math.Min(l, particle.X - particle.Size / 2);
-            r = Math.Max(r, particle.X + particle.Size / 2);
-            b = Math.Min(b, particle.Y - particle.Size / 2);
-            t = Math.Max(t, particle.Y + particle.Size / 2);
-        }
-        var rect = Rect.FromBounds(l, t, r, b);
-        rect.Expand(expand);
-        return rect;
-    }
 
     protected override void OnRenderFrame(FrameEventArgs args)
     {
@@ -67,9 +41,9 @@ public class Window : GameWindow
 
         GL.Clear(ClearBufferMask.ColorBufferBit);
 
-        _rectangleRenderer.Draw(ViewMatrix);
-        _gridRenderer.Draw(ViewMatrix);
-        _particleRenderer.Draw(ViewMatrix, ViewportSize, _particles);
+        RectangleRenderer.Draw(Projection);
+        GridRenderer.Draw(Projection);
+        ParticleRenderer.Draw(Projection, ViewportSize, Particles);
 
         SwapBuffers();
     }
@@ -90,15 +64,15 @@ public class Window : GameWindow
         base.OnFramebufferResize(e);
         ViewportSize = (e.Width, e.Height);
         GL.Viewport(0, 0, e.Width, e.Height);
-        UpdateViewMatrix();
+        UpdateProjection();
     }
 
-    private void UpdateViewMatrix()
+    private void UpdateProjection()
     {
-        ViewMatrix = OrthoView(_domain);
+        Projection = OrthographicProjection(Domain);
     }
 
-    private Matrix4 OrthoView(Rect frame, bool keepAspectRatio = true)
+    private Matrix4 OrthographicProjection(Rect frame, bool keepAspectRatio = true)
     {
         float left      = frame.CX - frame.Width / 2;
         float right     = frame.CX + frame.Width / 2;
@@ -120,4 +94,37 @@ public class Window : GameWindow
         }
         return Matrix4.CreateOrthographicOffCenter(left, right, bottom, top, -1, 1);
     }
+
+    private Rect GetContainingRectangle(Particle2D[] particles, float expand = 0.0f)
+    {
+        var l = float.MaxValue;
+        var r = float.MinValue;
+        var b = float.MaxValue;
+        var t = float.MinValue;
+        foreach (var particle in particles)
+        {
+            l = Math.Min(l, particle.X - particle.Size / 2);
+            r = Math.Max(r, particle.X + particle.Size / 2);
+            b = Math.Min(b, particle.Y - particle.Size / 2);
+            t = Math.Max(t, particle.Y + particle.Size / 2);
+        }
+        var rect = Rect.FromBounds(l, t, r, b);
+        rect.Expand(expand);
+        return rect;
+    }
+
+    private Matrix4 Projection { get; set; }
+
+    private Rect Domain { get; set; }
+
+    private Vector2 ViewportSize { get; set; }
+
+    private Particle2D[] Particles { get; set; }
+
+    private ParticleRenderer ParticleRenderer { get; set; }
+
+    private RectangleRenderer RectangleRenderer { get; set; }
+
+    private GridRenderer GridRenderer { get; set; }
+
 }

@@ -46,10 +46,10 @@ class GridRenderer : IDisposable
         _vbo.SetVertexAttributeFloat(_shader.GetAttribLocation("vertices"), 2);
 	}
 
-    public void Draw(Matrix4 view)
+    public void Draw(Matrix4 projection)
     {
         _shader.Use();
-		_shader.SetUniform("view", view);
+		_shader.SetUniform("projection", projection);
         _vao.Bind();
         GL.DrawArrays(PrimitiveType.Lines, 0, _lines.Length * 2);
 	}
