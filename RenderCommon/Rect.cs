@@ -11,6 +11,11 @@ public struct Rect
     public float Width;
     public float Height;
 
+    public float Left => CX - Width / 2f;
+    public float Right => CX + Width / 2f;
+    public float Bottom => CY - Height / 2f;
+    public float Top => CY + Height / 2f;
+
     public Rect(float cx, float cy, float width, float height)
     {
         CX = cx;

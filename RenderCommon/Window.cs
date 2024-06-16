@@ -13,6 +13,7 @@ public class Window : GameWindow
     private Particle2D[] _particles;
     private RectangleRenderer _rectangleRenderer;
     private ParticleRenderer _particleRenderer;
+    private GridRenderer _gridRenderer;
     private Rect _domain;
     private Vector2 ViewportSize;
 
@@ -39,6 +40,7 @@ public class Window : GameWindow
         _domain = GetContainingRectangle(_particles, 1f);
         UpdateViewMatrix();
         _rectangleRenderer = new RectangleRenderer(_domain);
+        _gridRenderer = new GridRenderer(_domain);
     }
 
     private Rect GetContainingRectangle(Particle2D[] particles, float expand = 0.0f)
@@ -66,6 +68,7 @@ public class Window : GameWindow
         GL.Clear(ClearBufferMask.ColorBufferBit);
 
         _rectangleRenderer.Draw(ViewMatrix);
+        _gridRenderer.Draw(ViewMatrix);
         _particleRenderer.Draw(ViewMatrix, ViewportSize, _particles);
 
         SwapBuffers();

@@ -12,6 +12,8 @@ namespace RenderCommon
         public float Y;
         public float Size;
 
+        public Vector2 Position => new Vector2(X, Y);
+
         public Particle2D(float x, float y, float size)
         {
             X = x;
