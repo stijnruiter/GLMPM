@@ -32,8 +32,22 @@ public class Window : GameWindow
         UpdateProjection();
         RectangleRenderer = new RectangleRenderer(Domain);
         GridRenderer = new GridRenderer(Domain);
-    }
+        LineRenderer = new LineRenderer();
+        Line = new[]
+        {
+            new Point(0f, 0f),
+            new Point(10f, -3f),
+            new Point(15f, 0f),
+            new Point(20f, 3f)
+        };
+        Lines = [
+            new Line(0f, 0f, 1f, 1f),
+            new Line(10f, 0f, 20f, 1f),
+            new Line(15f, 3f, 0f, 3f),
+            new Line(20f, -3f, 10f, 3f),
+            ];
 
+    }
 
     protected override void OnRenderFrame(FrameEventArgs args)
     {
@@ -44,14 +58,23 @@ public class Window : GameWindow
         RectangleRenderer.Draw(Projection);
         GridRenderer.Draw(Projection);
         ParticleRenderer.Draw(Projection, ViewportSize, Particles);
+        LineRenderer.Draw(Projection, Line);
+        LineRenderer.Draw(Projection, Lines);
 
         SwapBuffers();
     }
 
+    private double Time;
 
     protected override void OnUpdateFrame(FrameEventArgs args)
     {
         base.OnUpdateFrame(args);
+
+        Time += args.Time;
+
+        Particles[0].X = 10f + (float)Math.Sin(Time);
+        Particles[1].X = 15f + (float)Math.Sin(Time);
+        Particles[2].X = 20f + (float)Math.Sin(Time);
 
         if (KeyboardState.IsKeyDown(Keys.Escape))
         {
@@ -121,10 +144,15 @@ public class Window : GameWindow
 
     private Particle2D[] Particles { get; set; }
 
+    private Point[] Line { get; set; }
+    private Line[] Lines { get; set; }
+
     private ParticleRenderer ParticleRenderer { get; set; }
 
     private RectangleRenderer RectangleRenderer { get; set; }
 
     private GridRenderer GridRenderer { get; set; }
+
+    private LineRenderer LineRenderer { get; set; }
 
 }

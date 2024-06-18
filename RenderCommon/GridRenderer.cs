@@ -6,19 +6,34 @@ using System.Runtime.InteropServices;
 namespace RenderCommon;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct Point
+{
+	public float X;
+	public float Y;
+
+    public Point(float x, float y)
+    {
+        X = x;
+        Y = y;
+    }
+
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct Line
 {
-	public float StartX;
-	public float StartY;
-	public float EndX;
-	public float EndY;
+	public Point Start;
+	public Point End;
 
-	public Line(float startx, float starty,  float endx, float endy)
+	public Line(float startx, float starty,  float endx, float endy) 
+		: this(new Point(startx, starty), new Point(endx, endy))
+	{ 
+	}
+
+	public Line(Point start, Point end)
 	{
-        StartX = startx;
-        StartY = starty;
-		EndX = endx;
-		EndY = endy;
+		Start = start;
+		End = end;
 	}
 }
 
