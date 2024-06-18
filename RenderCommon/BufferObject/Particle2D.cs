@@ -3,7 +3,7 @@
 namespace RenderCommon.BufferObject;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-internal struct Particle2D
+public struct Particle2D
 {
     public Point2D Position;
     public float Size;

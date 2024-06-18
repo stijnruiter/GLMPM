@@ -1,10 +1,13 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaterialPointMethod", "MaterialPointMethod\MaterialPointMethod.csproj", "{225FDFA1-D9DF-4A11-A33D-6D0C448B6A7F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RenderCommon", "RenderCommon\RenderCommon.csproj", "{776C4063-AC41-406A-898D-F13F7E0521DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderCommon.Test", "RenderCommon.Test\RenderCommon.Test.csproj", "{12E1368B-0984-44A7-AF90-E913C2C8BCE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +23,10 @@ Global
 		{776C4063-AC41-406A-898D-F13F7E0521DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{776C4063-AC41-406A-898D-F13F7E0521DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{776C4063-AC41-406A-898D-F13F7E0521DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12E1368B-0984-44A7-AF90-E913C2C8BCE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12E1368B-0984-44A7-AF90-E913C2C8BCE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12E1368B-0984-44A7-AF90-E913C2C8BCE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12E1368B-0984-44A7-AF90-E913C2C8BCE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
