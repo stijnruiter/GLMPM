@@ -34,7 +34,7 @@ internal class RectangleRenderer : IDisposable
         _vbo.SetVertexAttributeFloat(_shader.GetAttribLocation("vertices"), 2);
 
         _shader.Use();
-        var model = Matrix4.CreateScale(rect.Width, rect.Height, 0) * Matrix4.CreateTranslation(rect.CX, rect.CY, 0);
+        var model = Matrix4.CreateScale(rect.Width, rect.Height, 0) * Matrix4.CreateTranslation(rect.Center.X, rect.Center.Y, 0);
         _shader.SetUniform("color", 1.0f, 1.0f, 1.0f, 1.0f);
         _shader.SetUniform("model", model);
     }

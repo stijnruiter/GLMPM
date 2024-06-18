@@ -97,10 +97,10 @@ public class Window : GameWindow
 
     private Matrix4 OrthographicProjection(Rect frame, bool keepAspectRatio = true)
     {
-        float left      = frame.CX - frame.Width / 2;
-        float right     = frame.CX + frame.Width / 2;
-        float bottom    = frame.CY - frame.Height / 2;
-        float top       = frame.CY + frame.Height / 2;
+        float left      = frame.Center.X - frame.Width / 2;
+        float right     = frame.Center.X + frame.Width / 2;
+        float bottom    = frame.Center.Y - frame.Height / 2;
+        float top       = frame.Center.Y + frame.Height / 2;
         if (keepAspectRatio)
         {
             var scaleX = frame.Width / ViewportSize.X;
@@ -132,7 +132,7 @@ public class Window : GameWindow
             t = Math.Max(t, particle.Position.Y + particle.Size / 2);
         }
         var rect = Rect.FromBounds(l, t, r, b);
-        rect.Expand(expand);
+        rect.Dilate(expand);
         return rect;
     }
 
