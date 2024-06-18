@@ -1,11 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using RenderCommon.BufferObject;
 using RenderCommon.Shaders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RenderCommon
 {
@@ -29,7 +25,7 @@ namespace RenderCommon
             ElementBuffer = new VertexBuffer(BufferTarget.ElementArrayBuffer);
         }
 
-        public void Draw(Matrix4 projection, Point[] points)
+        public void Draw(Matrix4 projection, Point2D[] points)
         {
             ShaderLoader.Use();
             ShaderLoader.SetUniform("model", Matrix4.Identity);
@@ -48,7 +44,7 @@ namespace RenderCommon
 
             GL.DrawElements(PrimitiveType.Lines, _elements.Length, DrawElementsType.UnsignedInt, 0);
         }
-        public void Draw(Matrix4 projection, Line[] lines)
+        public void Draw(Matrix4 projection, Line2D[] lines)
         {
             ShaderLoader.Use();
             ShaderLoader.SetUniform("model", Matrix4.Identity);
@@ -61,9 +57,6 @@ namespace RenderCommon
             GL.DrawArrays(PrimitiveType.Lines, 0, lines.Length * 2);
         }
 
-        private uint[] _elements = new uint[0];
-        private int _nPoints = 0;
-
         private uint[] GenIndices(int nElements)
         {
             var indices = new uint[nElements * 2];
@@ -75,5 +68,9 @@ namespace RenderCommon
             }
             return indices;
         }
+
+        private uint[] _elements = new uint[0];
+
+        private int _nPoints = 0;
     }
 }

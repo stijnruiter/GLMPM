@@ -1,5 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using RenderCommon.BufferObject;
 using RenderCommon.Shaders;
 
 namespace RenderCommon;

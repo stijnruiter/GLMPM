@@ -1,20 +1,17 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using System.Diagnostics;
 
 namespace RenderCommon.Shaders;
 
 public class ShaderLoader : IDisposable
 {
-    private int _handle;
-
     public ShaderLoader(string vertexPath, string fragmentPath)
     {
-        if (!Compile(ShaderType.VertexShader, vertexPath, out int vertexShader))
-            throw new Exception("Unable to compile vertex shader.");
-        if (!Compile(ShaderType.FragmentShader, fragmentPath, out int fragShader))
-            throw new Exception("Unable to compile frag shader.");
-        if (!CreateProgram(vertexShader, fragShader))
-            throw new Exception("Unable to create shader program.");
+        var vertexShader = Compile(ShaderType.VertexShader, vertexPath);
+        var fragShader = Compile(ShaderType.FragmentShader, fragmentPath);
+
+        _handle = LinkAndDisposeShaders(vertexShader, fragShader);
     }
 
     public void Use()
@@ -22,36 +19,30 @@ public class ShaderLoader : IDisposable
         GL.UseProgram(_handle);
     }
 
-    private bool CreateProgram(params int[] shaders)
+    private int LinkAndDisposeShaders(params int[] shaders)
     {
-        _handle = GL.CreateProgram();
+        var handle = GL.CreateProgram();
         foreach (var shader in shaders)
         {
-            GL.AttachShader(_handle, shader);
+            GL.AttachShader(handle, shader);
         }
 
-        GL.LinkProgram(_handle);
+        GL.LinkProgram(handle);
 
-        GL.GetProgram(_handle, GetProgramParameterName.LinkStatus, out int success);
+        GL.GetProgram(handle, GetProgramParameterName.LinkStatus, out int success);
         if (success == 0)
-        {
-            string infoLog = GL.GetProgramInfoLog(_handle);
-            Console.WriteLine(infoLog);
-            return false;
-        }
+            throw new ShaderException("Unable to link shaders.", GL.GetProgramInfoLog(handle));
 
         foreach (var shader in shaders)
         {
             GL.DetachShader(_handle, shader);
             GL.DeleteShader(shader);
         }
-
-        return true;
+        return handle;
     }
 
-    private bool Compile(ShaderType type, string shaderFile, out int program)
+    private int Compile(ShaderType type, string shaderFile)
     {
-        program = -1;
         string shaderSource = File.ReadAllText(shaderFile);
         int shader = GL.CreateShader(type);
         GL.ShaderSource(shader, shaderSource);
@@ -59,21 +50,16 @@ public class ShaderLoader : IDisposable
 
         GL.GetShader(shader, ShaderParameter.CompileStatus, out int success);
         if (success == 0)
-        {
-            string infoLog = GL.GetShaderInfoLog(shader);
-            Console.WriteLine(infoLog);
-            return false;
-        }
+            throw new ShaderException($"Unable to compile shader '{shaderFile}'", GL.GetShaderInfoLog(shader));
 
-        program = shader;
-        return true;
+        return shader;
     }
 
     public int GetAttribLocation(string attribName)
     {
         var loc = GL.GetAttribLocation(_handle, attribName);
         if (loc < 0)
-            throw new Exception($"Unable to get location of Attrib {attribName}");
+            throw new ShaderException($"Unable to get location of Attrib {attribName}");
         return loc;
     }
 
@@ -82,7 +68,7 @@ public class ShaderLoader : IDisposable
         var loc = GL.GetUniformLocation(_handle, uniformName);
 
         if (loc < 0)
-            throw new Exception($"Unable to get location of Attrib {uniformName}");
+            throw new ShaderException($"Unable to get location of Attrib {uniformName}");
 
         return loc;
     }
@@ -123,7 +109,7 @@ public class ShaderLoader : IDisposable
     {
         if (disposedValue == false)
         {
-            Console.WriteLine("Shader not disposed.");
+            Debug.Fail("Shader not disposed");
         }
     }
 
@@ -133,4 +119,14 @@ public class ShaderLoader : IDisposable
         Dispose(true);
         GC.SuppressFinalize(this);
     }
+
+    public static readonly ShaderLoader Default = new ShaderLoader(VertexShaderDefaultPath, FragmentShaderDefaultPath);
+
+    public static readonly ShaderLoader Particle = new ShaderLoader(VertexShaderParticlePath, FragmentShaderParticlePath);
+
+    private const string VertexShaderDefaultPath = "Shaders/Vertex/default.vert";
+    private const string VertexShaderParticlePath = "Shaders/Vertex/particle.vert";
+    private const string FragmentShaderDefaultPath = "Shaders/Vertex/default.frag";
+    private const string FragmentShaderParticlePath = "Shaders/Vertex/particle.frag";
+    private readonly int _handle;
 }

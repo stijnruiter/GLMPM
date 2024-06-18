@@ -1,26 +1,9 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using RenderCommon.BufferObject;
 using RenderCommon.Shaders;
-using System.Runtime.InteropServices;
 
 namespace RenderCommon;
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-internal struct Particle2D
-{
-    public float X;
-    public float Y;
-    public float Size;
-
-    public Vector2 Position => new Vector2(X, Y);
-
-    public Particle2D(float x, float y, float size)
-    {
-        X = x;
-        Y = y;
-        Size = size;
-    }
-}
 
 internal class ParticleRenderer : IDisposable
 {

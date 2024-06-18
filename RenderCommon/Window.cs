@@ -3,6 +3,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using RenderCommon.BufferObject;
 
 namespace RenderCommon;
 
@@ -15,7 +16,6 @@ public class Window : GameWindow
         Title = title;
         UpdateFrequency = 60;
     }
-
 
     protected override void OnLoad()
     {
@@ -35,16 +35,16 @@ public class Window : GameWindow
         LineRenderer = new LineRenderer();
         Line = new[]
         {
-            new Point(0f, 0f),
-            new Point(10f, -3f),
-            new Point(15f, 0f),
-            new Point(20f, 3f)
+            new Point2D(0f, 0f),
+            new Point2D(10f, -3f),
+            new Point2D(15f, 0f),
+            new Point2D(20f, 3f)
         };
         Lines = [
-            new Line(0f, 0f, 1f, 1f),
-            new Line(10f, 0f, 20f, 1f),
-            new Line(15f, 3f, 0f, 3f),
-            new Line(20f, -3f, 10f, 3f),
+            new Line2D(0f, 0f, 1f, 1f),
+            new Line2D(10f, 0f, 20f, 1f),
+            new Line2D(15f, 3f, 0f, 3f),
+            new Line2D(20f, -3f, 10f, 3f),
             ];
 
     }
@@ -72,9 +72,9 @@ public class Window : GameWindow
 
         Time += args.Time;
 
-        Particles[0].X = 10f + (float)Math.Sin(Time);
-        Particles[1].X = 15f + (float)Math.Sin(Time);
-        Particles[2].X = 20f + (float)Math.Sin(Time);
+        Particles[0].Position.X = 10f + (float)Math.Sin(Time);
+        Particles[1].Position.X = 15f + (float)Math.Sin(Time);
+        Particles[2].Position.X = 20f + (float)Math.Sin(Time);
 
         if (KeyboardState.IsKeyDown(Keys.Escape))
         {
@@ -126,10 +126,10 @@ public class Window : GameWindow
         var t = float.MinValue;
         foreach (var particle in particles)
         {
-            l = Math.Min(l, particle.X - particle.Size / 2);
-            r = Math.Max(r, particle.X + particle.Size / 2);
-            b = Math.Min(b, particle.Y - particle.Size / 2);
-            t = Math.Max(t, particle.Y + particle.Size / 2);
+            l = Math.Min(l, particle.Position.X - particle.Size / 2);
+            r = Math.Max(r, particle.Position.X + particle.Size / 2);
+            b = Math.Min(b, particle.Position.Y - particle.Size / 2);
+            t = Math.Max(t, particle.Position.Y + particle.Size / 2);
         }
         var rect = Rect.FromBounds(l, t, r, b);
         rect.Expand(expand);
@@ -144,8 +144,8 @@ public class Window : GameWindow
 
     private Particle2D[] Particles { get; set; }
 
-    private Point[] Line { get; set; }
-    private Line[] Lines { get; set; }
+    private Point2D[] Line { get; set; }
+    private Line2D[] Lines { get; set; }
 
     private ParticleRenderer ParticleRenderer { get; set; }
 

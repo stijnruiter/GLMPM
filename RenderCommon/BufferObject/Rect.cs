@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace RenderCommon;
+namespace RenderCommon.BufferObject;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct Rect
@@ -24,7 +24,7 @@ public struct Rect
         Height = height;
     }
 
-    public static Rect FromBounds(float left, float top, float right, float bottom) 
+    public static Rect FromBounds(float left, float top, float right, float bottom)
         => new Rect((left + right) / 2, (top + bottom) / 2, right - left, top - bottom);
 
     public void Expand(float kernel)
