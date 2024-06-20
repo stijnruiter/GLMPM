@@ -3,7 +3,7 @@
 namespace RenderCommon.BufferObject;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct Rect
+public struct Rect : IBoundingBox
 {
     public Point2D Center;
     public Point2D Size;
@@ -33,6 +33,8 @@ public struct Rect
         }
     }
 
+    public Rect BoundingBox => this;
+
     public Rect(float cx, float cy, float width, float height) : this(new Point2D(cx, cy), new Point2D(width, height))
     {
     }
@@ -43,7 +45,7 @@ public struct Rect
         Size = size;
     }
 
-    public static Rect FromBounds(float left, float top, float right, float bottom)
+    public static Rect FromBounds(float left, float bottom, float right, float top)
         => new Rect((left + right) / 2, (top + bottom) / 2, right - left, top - bottom);
 
     public void Dilate(float kernel)

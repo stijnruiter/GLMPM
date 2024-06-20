@@ -3,10 +3,12 @@
 namespace RenderCommon.BufferObject;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct Line2D
+public struct Line2D : IBoundingBox
 {
     public Point2D Start;
     public Point2D End;
+
+    public Rect BoundingBox => BufferObjectFunctions.GetBoundingBox(Start, End);
 
     public Line2D(float startx, float starty, float endx, float endy)
         : this(new Point2D(startx, starty), new Point2D(endx, endy))

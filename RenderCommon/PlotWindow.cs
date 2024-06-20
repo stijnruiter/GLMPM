@@ -41,52 +41,10 @@ public class PlotWindow : GameWindow
     protected override void OnFramebufferResize(FramebufferResizeEventArgs e)
     {
         base.OnFramebufferResize(e);
-        ViewportSize = (e.Width, e.Height);
         GL.Viewport(0, 0, e.Width, e.Height);
-        UpdateProjection();
+        Camera.ViewportSize = (e.Width, e.Height);
     }
 
-    private void UpdateProjection()
-    {
-        Projection = OrthographicProjection(Domain);
-    }
-
-    private Matrix4 OrthographicProjection(Rect frame, bool keepAspectRatio = true)
-    {
-        float left = frame.Center.X - frame.Width / 2;
-        float right = frame.Center.X + frame.Width / 2;
-        float bottom = frame.Center.Y - frame.Height / 2;
-        float top = frame.Center.Y + frame.Height / 2;
-        if (keepAspectRatio)
-        {
-            var scaleX = frame.Width / ViewportSize.X;
-            var scaleY = frame.Height / ViewportSize.Y;
-            if (scaleX < scaleY)
-            {
-                right = ViewportSize.X / ViewportSize.Y * frame.Height + left;
-            }
-            else
-            {
-                top = ViewportSize.Y / ViewportSize.X * frame.Width + bottom;
-            }
-
-        }
-        return Matrix4.CreateOrthographicOffCenter(left, right, bottom, top, -1, 1);
-    }
-
-    public Matrix4 Projection { get; private set; }
-
-    private Rect _domain;
-    public Rect Domain 
-    { 
-        get => _domain;
-        set
-        {
-            _domain = value;
-            UpdateProjection();
-        }
-    }
-
-    public Vector2i ViewportSize { get; private set; }
+    public Camera Camera { get; } = new Camera();
 
 }

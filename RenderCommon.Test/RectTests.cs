@@ -7,6 +7,7 @@ namespace RenderCommon.Test;
 public class Tests
 {
     private const float Tolerance = 1e-6f;
+
     [Test]
     public void PropertiesTest()
     {
@@ -29,7 +30,7 @@ public class Tests
     [Test]
     public void FromBoundsTest()
     {
-        var rectangle = Rect.FromBounds(0f, 20f, 10f, 5f);
+        var rectangle = Rect.FromBounds(0f, 5f, 10f, 20f);
         Assert.That(rectangle.Center.X, Is.EqualTo(5f).Within(Tolerance));
         Assert.That(rectangle.Center.Y, Is.EqualTo(12.5f).Within(Tolerance));
         
