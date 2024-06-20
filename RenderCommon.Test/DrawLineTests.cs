@@ -30,8 +30,7 @@ internal class DrawLineTests : OpenGLTests
         renderer.Draw(projection, points);
         var bitmap = CreateBitmap();
         Assert.That((bitmap.Width, bitmap.Height), Is.EqualTo((Width, Height)), "Bitmap dimensions mismatch.");
-        bitmap.Save("DrawLineBox.png", System.Drawing.Imaging.ImageFormat.Png);
-        BitmapAssert.AreEqual(bitmap, "DrawLineBox.png");
+        BitmapAssert.AreEqual(bitmap, DrawLineBox);
     }
 
     [Test]
@@ -42,14 +41,27 @@ internal class DrawLineTests : OpenGLTests
         var points = new Line2D[]
         {
             new Line2D(new Point2D(100, 100), new Point2D(100,  300)),
+            new Line2D(new Point2D(100, 300), new Point2D(300,  300)),
             new Line2D(new Point2D(300, 300), new Point2D(300, 100)),
-            new Line2D(new Point2D(200, 1), new Point2D(400, 400))
+            new Line2D(new Point2D(300, 100), new Point2D(100, 100)),
         };
 
         renderer.Draw(projection, points);
         var bitmap = CreateBitmap();
         Assert.That((bitmap.Width, bitmap.Height), Is.EqualTo((Width, Height)), "Bitmap dimensions mismatch.");
-        bitmap.Save("DrawLineSegmentBox.png", System.Drawing.Imaging.ImageFormat.Png);
-        BitmapAssert.AreEqual(bitmap, "DrawLineSegmentBox.png");
+        BitmapAssert.AreEqual(bitmap, DrawLineBox);
+    }
+
+    private SparseMatrix<Color> DrawLineBox
+    {
+        get
+        {
+            var sparseMat = new SparseMatrix<Color>(Width, Height, Color.White);
+            sparseMat[99..299, 99] = Color.Black;
+            sparseMat[99..299, 299] = Color.Black;
+            sparseMat[99, 99..299] = Color.Black;
+            sparseMat[299, 99..299] = Color.Black;
+            return sparseMat;
+        }
     }
 }
