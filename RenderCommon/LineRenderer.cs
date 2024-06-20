@@ -5,7 +5,7 @@ using RenderCommon.Shaders;
 
 namespace RenderCommon;
 
-internal class LineRenderer : IDisposable
+public class LineRenderer : IDisposable
 {
     private ShaderLoader ShaderLoader { get; }
     private VertexObject VertexObject { get; }

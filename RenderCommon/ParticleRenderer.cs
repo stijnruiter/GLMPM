@@ -5,7 +5,7 @@ using RenderCommon.Shaders;
 
 namespace RenderCommon;
 
-internal class ParticleRenderer : IDisposable
+public class ParticleRenderer : IDisposable
 {
     private ShaderLoader _particleShader;
     private VertexObject _vao;

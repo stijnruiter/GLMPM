@@ -5,7 +5,7 @@ using RenderCommon.Shaders;
 
 namespace RenderCommon;
 
-class GridRenderer : IDisposable
+public class GridRenderer : IDisposable
 {
     private ShaderLoader _shader;
     private VertexObject _vao;
