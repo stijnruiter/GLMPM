@@ -10,7 +10,6 @@ internal class LinearShapeFunctionTests
     [Test]
     public void LinearShapeFunctionConstructor()
     {
-        Assert.Throws<ArgumentNullException>(() => new LinearShapeFunction(null));
         Assert.Throws<ArgumentOutOfRangeException>(() => new LinearShapeFunction([0f]));
         Assert.Throws<ArgumentException>(() => new LinearShapeFunction([0f, 1f, 2f, 1f]));
     }

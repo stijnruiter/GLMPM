@@ -25,7 +25,7 @@ public class ParticleRenderer : IDisposable
 
     public ParticleRenderer()
     {
-        _particleShader = new ShaderLoader("Shaders/Vertex/particle.vert", "Shaders/Fragment/particle.frag");
+        _particleShader = ShaderLoader.Particle;
 
         _vao = new VertexObject();
         _vao.Bind();

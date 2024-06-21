@@ -13,7 +13,7 @@ public class LineRenderer : IDisposable
     private VertexBuffer ElementBuffer { get; }
 
     public LineRenderer() {
-        ShaderLoader = new ShaderLoader("Shaders/Vertex/default.vert", "Shaders/Fragment/default.frag");
+        ShaderLoader = ShaderLoader.Default;
         
         VertexObject = new VertexObject();
         VertexObject.Bind();

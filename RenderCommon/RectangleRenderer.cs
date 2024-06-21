@@ -24,7 +24,7 @@ internal class RectangleRenderer : IDisposable
 
     public RectangleRenderer(Rect rect) 
     { 
-        _shader = new ShaderLoader("Shaders/Vertex/default.vert", "Shaders/Fragment/default.frag");
+        _shader = ShaderLoader.Default;
 
         _vao = new VertexObject();
         _vao.Bind();

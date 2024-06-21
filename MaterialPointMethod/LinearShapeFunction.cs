@@ -6,7 +6,6 @@ internal class LinearShapeFunction
 {
     public LinearShapeFunction(float[] nodes)
     {
-        ArgumentNullException.ThrowIfNull(nodes);
         ArgumentOutOfRangeException.ThrowIfLessThan(nodes.Length, 2);
         
         if (!MathFunctions.IsIncreasing(nodes))

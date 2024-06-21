@@ -6,12 +6,19 @@ namespace RenderCommon.Shaders;
 
 public class ShaderLoader : IDisposable
 {
-    public ShaderLoader(string vertexPath, string fragmentPath)
+    public ShaderLoader(string vertexSource, string fragmentSource)
     {
-        var vertexShader = Compile(ShaderType.VertexShader, vertexPath);
-        var fragShader = Compile(ShaderType.FragmentShader, fragmentPath);
+        var vertexShader = Compile(ShaderType.VertexShader, vertexSource);
+        var fragShader = Compile(ShaderType.FragmentShader, fragmentSource);
 
         _handle = LinkAndDisposeShaders(vertexShader, fragShader);
+    }
+
+    public static ShaderLoader FromFiles(string vertexPath, string fragmentPath)
+    {
+        var vertexSource = File.ReadAllText(vertexPath);
+        var fragmentSource = File.ReadAllText(fragmentPath);
+        return new ShaderLoader(vertexSource, fragmentSource);
     }
 
     public void Use()
@@ -41,16 +48,15 @@ public class ShaderLoader : IDisposable
         return handle;
     }
 
-    private int Compile(ShaderType type, string shaderFile)
+    private int Compile(ShaderType type, string shaderSource)
     {
-        string shaderSource = File.ReadAllText(shaderFile);
         int shader = GL.CreateShader(type);
         GL.ShaderSource(shader, shaderSource);
         GL.CompileShader(shader);
 
         GL.GetShader(shader, ShaderParameter.CompileStatus, out int success);
         if (success == 0)
-            throw new ShaderException($"Unable to compile shader '{shaderFile}'", GL.GetShaderInfoLog(shader));
+            throw new ShaderException($"Unable to compile shader of type '{type}'", GL.GetShaderInfoLog(shader));
 
         return shader;
     }
@@ -68,7 +74,7 @@ public class ShaderLoader : IDisposable
         var loc = GL.GetUniformLocation(_handle, uniformName);
 
         if (loc < 0)
-            throw new ShaderException($"Unable to get location of Attrib {uniformName}");
+            throw new ShaderException($"Unable to get location of Uniform {uniformName}");
 
         return loc;
     }
@@ -122,13 +128,15 @@ public class ShaderLoader : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    public static readonly ShaderLoader Default = new ShaderLoader(VertexShaderDefaultPath, FragmentShaderDefaultPath);
+    public static ShaderLoader Default => ShaderLoader.FromFiles(VertexShaderDefaultPath, FragmentShaderDefaultPath);
 
-    public static readonly ShaderLoader Particle = new ShaderLoader(VertexShaderParticlePath, FragmentShaderParticlePath);
+    public static ShaderLoader Particle => ShaderLoader.FromFiles(VertexShaderParticlePath, FragmentShaderParticlePath);
 
     private const string VertexShaderDefaultPath = "Shaders/Vertex/default.vert";
     private const string VertexShaderParticlePath = "Shaders/Vertex/particle.vert";
-    private const string FragmentShaderDefaultPath = "Shaders/Vertex/default.frag";
-    private const string FragmentShaderParticlePath = "Shaders/Vertex/particle.frag";
+
+    private const string FragmentShaderDefaultPath = "Shaders/Fragment/default.frag";
+    private const string FragmentShaderParticlePath = "Shaders/Fragment/particle.frag";
+    
     private readonly int _handle;
 }

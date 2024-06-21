@@ -17,7 +17,7 @@ public class GridRenderer : IDisposable
 	{
 		_lines = CreateHorizontalVerticalLines(domain, step);
 
-		_shader = new ShaderLoader("Shaders/Vertex/default.vert", "Shaders/Fragment/default.frag");
+		_shader = ShaderLoader.Default;
         _shader.Use();
 		_shader.SetUniform("model", Matrix4.Identity);
 
