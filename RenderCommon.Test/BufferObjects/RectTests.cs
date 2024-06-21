@@ -1,7 +1,8 @@
 using NUnit.Framework;
 using RenderCommon.BufferObject;
+using RenderCommon.Test.Utils;
 
-namespace RenderCommon.Test;
+namespace RenderCommon.Test.BufferObjects;
 
 [TestFixture]
 public class Tests
@@ -25,6 +26,9 @@ public class Tests
         Assert.That(rectangle.Right, Is.EqualTo(0.35f).Within(Tolerance));
         Assert.That(rectangle.Bottom, Is.EqualTo(-0.05f).Within(Tolerance));
         Assert.That(rectangle.Top, Is.EqualTo(0.65f).Within(Tolerance));
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => rectangle.Height = -1);
+        Assert.Throws<ArgumentOutOfRangeException>(() => rectangle.Width = -1);
     }
 
     [Test]
@@ -33,13 +37,13 @@ public class Tests
         var rectangle = Rect.FromBounds(0f, 5f, 10f, 20f);
         Assert.That(rectangle.Center.X, Is.EqualTo(5f).Within(Tolerance));
         Assert.That(rectangle.Center.Y, Is.EqualTo(12.5f).Within(Tolerance));
-        
+
         Assert.That(rectangle.Width, Is.EqualTo(10f).Within(Tolerance));
         Assert.That(rectangle.Height, Is.EqualTo(15f).Within(Tolerance));
     }
 
     [Test]
-    public void UnmanagedBufferTest() 
+    public void UnmanagedBufferTest()
     {
         float centerX = 12.34f;
         float centerY = -50.5678f;
@@ -54,5 +58,33 @@ public class Tests
 
         var combinedBytes = center.AsByteArray().Concat(size.AsByteArray());
         CollectionAssert.AreEqual(combinedBytes, rectangle.AsByteArray());
+    }
+
+    [Test]
+    public void MorphologyTest()
+    {
+        var rect = new Rect();
+        rect.Dilate(2f);
+        Assert.That(rect, Is.EqualTo(new Rect(0f, 0f, 4f, 4f)));
+
+        rect.Dilate(1f);
+        Assert.That(rect, Is.EqualTo(new Rect(0f, 0f, 6f, 6f)));
+
+        rect.Erode(2f);
+        Assert.That(rect, Is.EqualTo(new Rect(0f, 0f, 2f, 2f)));
+
+        var rect1 = new Rect(2, 2, 5, 5);
+        var rect2 = new Rect(2, 2, 5, 5);
+
+        rect1.Dilate(2);
+        rect2.Erode(-2);
+
+        Assert.That(rect1, Is.EqualTo(rect2));
+
+        rect1.Erode(1);
+        rect2.Dilate(-1);
+        Assert.That(rect1, Is.EqualTo(rect2));
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => rect1.Erode(5));
     }
 }

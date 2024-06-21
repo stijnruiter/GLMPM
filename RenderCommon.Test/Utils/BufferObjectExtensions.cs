@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace RenderCommon.Test;
+namespace RenderCommon.Test.Utils;
 
 public static class BufferObjectExtensions
 {

@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL4;
 using System.Drawing;
 using Imaging = System.Drawing.Imaging;
 
-namespace RenderCommon.Test;
+namespace RenderCommon.Test.Utils;
 
 [TestFixture]
 internal abstract class OpenGLTests

@@ -23,6 +23,7 @@ public class MathFunctionsTests
         Assert.Throws<ArgumentOutOfRangeException>(() => MathFunctions.LinSpace(0f, 2f, 1));
     }
 
+    [TestCase(new float[] {0f}, true, true, true, true)]
     [TestCase(new float[] {0f, 1f, 2f, 3f}, true, true, false, false)]
     [TestCase(new float[] {0f, 0f, 2f, 3f}, true, false, false, false)]
     [TestCase(new float[] {1f, 0f, 2f, 3f}, false, false, false, false)]

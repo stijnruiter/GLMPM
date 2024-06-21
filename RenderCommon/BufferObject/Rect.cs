@@ -50,13 +50,13 @@ public struct Rect : IBoundingBox
 
     public void Dilate(float kernel)
     {
-        Size.X += 2 * kernel;
+        Width += 2 * kernel;
         Height += 2 * kernel;
     }
 
     public void Erode(float kernel)
     {
-        Size.X -= 2 * kernel;
+        Width -= 2 * kernel;
         Height -= 2 * kernel;
     }
 }

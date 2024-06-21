@@ -1,4 +1,4 @@
-﻿namespace RenderCommon.Test;
+﻿namespace RenderCommon.Test.Utils;
 
 internal class SparseMatrix<T>
 {
@@ -11,7 +11,7 @@ internal class SparseMatrix<T>
     public SparseMatrix(int columns, int rows, T emptyValue)
     {
         EmptyValue = emptyValue;
-        Columns = columns; 
+        Columns = columns;
         Rows = rows;
     }
 
@@ -21,11 +21,11 @@ internal class SparseMatrix<T>
 
         if (value.Equals(EmptyValue))
         {
-            _values.Remove(Index(x,y));
+            _values.Remove(Index(x, y));
             return;
         }
 
-        _values[Index(x,y)] = value;
+        _values[Index(x, y)] = value;
     }
     public T GetValue(int x, int y) => _values.GetValueOrDefault(Index(x, y), EmptyValue);
 
@@ -60,7 +60,7 @@ internal class SparseMatrix<T>
         }
     }
 
-    private (int lower, int upper) ClipRange (Range x, int max, int min = 0)
+    private (int lower, int upper) ClipRange(Range x, int max, int min = 0)
     {
         if (x.Start.IsFromEnd)
         {
@@ -77,8 +77,8 @@ internal class SparseMatrix<T>
             return (x.Start.Value, max);
         }
 
-        return x.Start.Value < x.End.Value 
-                ? (x.Start.Value, x.End.Value) 
+        return x.Start.Value < x.End.Value
+                ? (x.Start.Value, x.End.Value)
                 : (x.End.Value, x.Start.Value);
     }
 

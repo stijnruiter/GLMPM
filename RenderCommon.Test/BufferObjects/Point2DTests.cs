@@ -1,7 +1,8 @@
 ﻿using NUnit.Framework;
 using RenderCommon.BufferObject;
+using RenderCommon.Test.Utils;
 
-namespace RenderCommon.Test;
+namespace RenderCommon.Test.BufferObjects;
 
 [TestFixture]
 public class Point2DTests

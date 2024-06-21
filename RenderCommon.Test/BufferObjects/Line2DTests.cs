@@ -1,7 +1,8 @@
 ﻿using NUnit.Framework;
 using RenderCommon.BufferObject;
+using RenderCommon.Test.Utils;
 
-namespace RenderCommon.Test;
+namespace RenderCommon.Test.BufferObjects;
 
 [TestFixture]
 public class Line2DTests
@@ -26,7 +27,7 @@ public class Line2DTests
         var start = new Point2D(-22.22222f, 33.1234f);
         var end = new Point2D(12345.6789f, -0.012345f);
         var line = new Line2D(start, end);
-        
+
         Assert.That(line.SizeOf(), Is.EqualTo(sizeof(float) * 4));
 
         var combinedArray = start.AsByteArray().Concat(end.AsByteArray());

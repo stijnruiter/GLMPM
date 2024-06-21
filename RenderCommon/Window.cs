@@ -24,7 +24,7 @@ public class Window : GameWindow
 
         CreateBufferObjects();
 
-        var viewDomain = BufferObjectFunctions.GetBoundingBox(Particles.OfType<IBoundingBox>());
+        var viewDomain = BufferObjectFunctions.GetBoundingBox(Particles.OfType<IBoundingBox>().ToArray());
         viewDomain.Dilate(1f);
         Camera.ViewDomain = viewDomain;
 

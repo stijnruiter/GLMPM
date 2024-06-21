@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace RenderCommon.Test;
+namespace RenderCommon.Test.Utils;
 
 internal abstract class BitmapAssert
 {
@@ -14,17 +14,17 @@ internal abstract class BitmapAssert
 
         // Horrible slow per-pixel baseline comparison, but ok for now
         // TODO: improve speed/channel tolerances
-        for(var x = 0; x < generatedImage.Width; x++)
+        for (var x = 0; x < generatedImage.Width; x++)
         {
             for (var y = 0; y < generatedImage.Height; y++)
             {
                 var baselinePixel = baseline.GetPixel(x, y);
                 var aPixel = generatedImage.GetPixel(x, y);
 
-                Assert.That(aPixel.ToArgb(), Is.EqualTo(baselinePixel.ToArgb()), 
+                Assert.That(aPixel.ToArgb(), Is.EqualTo(baselinePixel.ToArgb()),
                     $"Pixel {x}, {y} not identical");
             }
-        }        
+        }
     }
 
     public static void AreEqual(Bitmap image, SparseMatrix<Color> matrix)
@@ -38,7 +38,7 @@ internal abstract class BitmapAssert
         {
             for (var y = 0; y < image.Height; y++)
             {
-                var baselinePixel = matrix[x,y];
+                var baselinePixel = matrix[x, y];
                 var aPixel = image.GetPixel(x, y);
 
                 Assert.That(aPixel.ToArgb(), Is.EqualTo(baselinePixel.ToArgb()),
@@ -52,7 +52,7 @@ internal abstract class BitmapAssert
     {
         return new Bitmap(Image.FromFile($"Baselines/{baseline}"));
     }
-    
+
     public static void SaveBitmap(SparseMatrix<Color> matrix, string filename, ImageFormat format)
     {
         var bitmap = new Bitmap(matrix.Columns, matrix.Rows);
