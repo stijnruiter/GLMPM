@@ -71,6 +71,6 @@ public class Camera
             }
 
         }
-        return Matrix4.CreateOrthographicOffCenter(left, right, bottom, top, -1, 1);
+        return Matrix4.CreateOrthographicOffCenter(left, right, bottom, top, 1, -1);
     }
 }
