@@ -34,7 +34,7 @@ internal class RectangleRendererTests : OpenGLTests
         get
         {
             var baseline = new SparseMatrix<Color>(Width, Height, BackgroundColor);
-            baseline[49..149, 49..149] = Color.White;
+            baseline[49..149, 50..150] = Color.White;
             return baseline;
         }
     }

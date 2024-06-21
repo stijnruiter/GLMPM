@@ -44,6 +44,8 @@ internal abstract class OpenGLTests
         var bits = bitmap.LockBits(new Rectangle(0, 0, Window.FramebufferSize.X, Window.FramebufferSize.Y), Imaging.ImageLockMode.WriteOnly, Imaging.PixelFormat.Format32bppArgb);
         GL.ReadPixels(0, 0, Window.FramebufferSize.X, Window.FramebufferSize.Y, PixelFormat.Bgra, PixelType.UnsignedByte, bits.Scan0);
         bitmap.UnlockBits(bits);
+        // Pixel on screen are from bottom to top, but in Bitmap from top to bottom.
+        bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
         return bitmap;
     }
 }

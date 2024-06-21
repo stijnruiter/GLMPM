@@ -40,9 +40,10 @@ public class ParticleRenderer : IDisposable
         GL.VertexAttribDivisor(_particleShader.GetAttribLocation("particle"), 1);
     }
 
-    public void Draw(Matrix4 projection, Vector2 viewportSize, Particle2D[] data) 
+    public void Draw(Matrix4 projection, Vector2 viewportSize, Color4 color, Particle2D[] data) 
     {
         _particleShader.Use();
+        _particleShader.SetUniform("color", color);
         _particleShader.SetUniform("projection", projection);
         _particleShader.SetUniform("resolution", viewportSize);
         _vao.Bind();

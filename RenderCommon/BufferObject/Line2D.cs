@@ -1,8 +1,10 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace RenderCommon.BufferObject;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
+[DebuggerDisplay("Start ({Start.X}, {Start.Y}), End ({End.X}, {End.Y})")]
 public struct Line2D : IBoundingBox
 {
     public Point2D Start;

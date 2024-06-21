@@ -16,7 +16,7 @@ internal class GridRendererTests : OpenGLTests
     {
         var camera = new Camera()
         {
-            ViewDomain = new BufferObject.Rect(0, 0, 4, 4),
+            ViewDomain = new BufferObject.Rect(2.01f, 2.01f, 4f, 4f),
             ViewportSize = (Width, Height),
             EqualAspectRatio = true,
         };
@@ -33,7 +33,7 @@ internal class GridRendererTests : OpenGLTests
         {
             var baseline = new SparseMatrix<Color>(Width, Height, BackgroundColor);
             baseline[24, ..] = baseline[49, ..] = baseline[74, ..] = baseline[99, ..] = Color.Black;
-            baseline[.., 24] = baseline[.., 49] = baseline[.., 74] = baseline[.., 99] = Color.Black;
+            baseline[..,  0] = baseline[.., 25] = baseline[.., 50] = baseline[.., 75] = Color.Black;
             return baseline;
         }
     }

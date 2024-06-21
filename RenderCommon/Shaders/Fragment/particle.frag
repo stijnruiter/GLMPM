@@ -3,9 +3,9 @@ in vec2 center;
 in float radius;
 
 uniform vec2 resolution;
-uniform mat4 view;
+uniform vec4 color;
 
-out vec4 color;
+out vec4 FragColor;
 
 void main()
 {
@@ -14,7 +14,7 @@ void main()
 
     if (dot(size, size) < radius * radius)
     {
-        color = vec4(0.1, 0.0, 1.0, 1.0);
+        FragColor = color;
     }
     else 
     {

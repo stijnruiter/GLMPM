@@ -1,7 +1,9 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace RenderCommon.BufferObject;
 
+[DebuggerDisplay("(L={Left}, B={Bottom}, R={Right}, T={Top})")]
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct Rect : IBoundingBox
 {

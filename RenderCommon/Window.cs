@@ -42,14 +42,14 @@ public class Window : GameWindow
 
         RectangleRenderer.Draw(Camera.Projection, Color4.White);
         GridRenderer.Draw(Camera.Projection, Color4.Black);
-        ParticleRenderer.Draw(Camera.Projection, Camera.ViewportSize, Particles);
+        ParticleRenderer.Draw(Camera.Projection, Camera.ViewportSize, Color4.Blue, Particles);
         LineRenderer.Draw(Camera.Projection, Line);
         LineRenderer.Draw(Camera.Projection, Lines);
 
         SwapBuffers();
     }
 
-    private double Time;
+private double Time;
 
     protected override void OnUpdateFrame(FrameEventArgs args)
     {

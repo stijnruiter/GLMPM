@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using System.Drawing;
-using System.Drawing.Imaging;
 
 namespace RenderCommon.Test.Utils;
 
@@ -53,7 +52,7 @@ internal abstract class BitmapAssert
         return new Bitmap(Image.FromFile($"Baselines/{baseline}"));
     }
 
-    public static void SaveBitmap(SparseMatrix<Color> matrix, string filename, ImageFormat format)
+    public static void SaveBitmap(SparseMatrix<Color> matrix, string filename)
     {
         var bitmap = new Bitmap(matrix.Columns, matrix.Rows);
         for (var x = 0; x < matrix.Columns; x++)
@@ -63,6 +62,6 @@ internal abstract class BitmapAssert
                 bitmap.SetPixel(x, y, matrix[x, y]);
             }
         }
-        bitmap.Save(filename, format);
+        bitmap.Save(filename);
     }
 }
