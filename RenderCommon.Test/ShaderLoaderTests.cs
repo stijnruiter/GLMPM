@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using RenderCommon.Shaders;
 using RenderCommon.Test.Utils;
-using System.Diagnostics.Metrics;
 
 namespace RenderCommon.Test;
 
@@ -11,8 +10,8 @@ internal class ShaderLoaderTests : OpenGLTests
     private const string DefaultFragmentShaderSource = "#version 330 core\r\nin vec4 color;out vec4 FragColor;void main() { FragColor = color; }";
     private const string DefaultVertexShaderSource = "#version 330 core\r\nin vec2 vertices; out vec4 color;void main() { gl_Position = vec4(vertices, 0.0, 1.0); }";
 
-    private const string LinkFailVertexShaderSource = "#version 330 core\r\nout vec3 test; void main() { test = vec3(0.0,0.0,0.0);}";
-    private const string LinkFailFragmentShaderSource = "#version 330 core\r\n in vec4 temp; void main() { float x = temp.x; }";
+    private const string LinkFailVertexShaderSource = "#version 330 core\r\n void main() { }";
+    private const string LinkFailFragmentShaderSource = "#version 330 core\r\n void main2() { }";
 
     [Test]
     public void LoadException()
