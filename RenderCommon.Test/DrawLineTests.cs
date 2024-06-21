@@ -13,7 +13,6 @@ internal class DrawLineTests : OpenGLTests
     protected override int Width => 400;
     protected override int Height => 400;
 
-
     [Test]
     public void DrawLine()
     {

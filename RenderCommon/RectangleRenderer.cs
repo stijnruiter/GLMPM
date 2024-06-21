@@ -35,7 +35,6 @@ internal class RectangleRenderer : IDisposable
 
         _shader.Use();
         var model = Matrix4.CreateScale(rect.Width, rect.Height, 0) * Matrix4.CreateTranslation(rect.Center.X, rect.Center.Y, 0);
-        _shader.SetUniform("color", 1.0f, 1.0f, 1.0f, 1.0f);
         _shader.SetUniform("model", model);
     }
 
@@ -46,10 +45,11 @@ internal class RectangleRenderer : IDisposable
         _vbo.Dispose();
     }
 
-    public void Draw(Matrix4 projection)
+    public void Draw(Matrix4 projection, Color4 color)
     {
         _shader.Use();
         _shader.SetUniform("projection", projection);
+        _shader.SetUniform("color", color);
         _vao.Bind();
         GL.DrawArrays(PrimitiveType.Triangles, 0, 6);
     }

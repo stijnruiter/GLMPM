@@ -29,10 +29,11 @@ public class GridRenderer : IDisposable
         _vbo.SetVertexAttributeFloat(_shader.GetAttribLocation("vertices"), 2);
 	}
 
-    public void Draw(Matrix4 projection)
+    public void Draw(Matrix4 projection, Color4 color)
     {
         _shader.Use();
 		_shader.SetUniform("projection", projection);
+		_shader.SetUniform("color", color);
         _vao.Bind();
         GL.DrawArrays(PrimitiveType.Lines, 0, _lines.Length * 2);
 	}

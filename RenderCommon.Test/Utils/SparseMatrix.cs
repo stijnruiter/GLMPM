@@ -48,8 +48,8 @@ internal class SparseMatrix<T>
     {
         set
         {
-            var xRange = ClipRange(x, Columns);
-            var yRange = ClipRange(y, Rows);
+            var xRange = ClipRange(x, Columns - 1);
+            var yRange = ClipRange(y, Rows - 1);
             for (var xi = xRange.lower; xi <= xRange.upper; xi++)
             {
                 for (var yi = yRange.lower; yi <= yRange.upper; yi++)
@@ -82,7 +82,15 @@ internal class SparseMatrix<T>
                 : (x.End.Value, x.Start.Value);
     }
 
-    private long Index(int x, int y) => y * Columns + x;
+    private long Index(int x, int y)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(x);
+        ArgumentOutOfRangeException.ThrowIfNegative(y);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(x, Columns);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(y, Rows);
+        int v = (y * Columns);
+        return v + x;
+    }
     private (int X, int Y) Coord(long index) => ((int)(index % Columns), (int)(index / Columns));
 
 }

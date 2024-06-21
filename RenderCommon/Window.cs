@@ -40,8 +40,8 @@ public class Window : GameWindow
 
         GL.Clear(ClearBufferMask.ColorBufferBit);
 
-        RectangleRenderer.Draw(Camera.Projection);
-        GridRenderer.Draw(Camera.Projection);
+        RectangleRenderer.Draw(Camera.Projection, Color4.White);
+        GridRenderer.Draw(Camera.Projection, Color4.Black);
         ParticleRenderer.Draw(Camera.Projection, Camera.ViewportSize, Particles);
         LineRenderer.Draw(Camera.Projection, Line);
         LineRenderer.Draw(Camera.Projection, Lines);

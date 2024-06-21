@@ -79,6 +79,7 @@ public class ShaderLoader : IDisposable
     public void SetUniform(int location, Vector3 value) => GL.Uniform3(location, value);
     public void SetUniform(int location, float v1, float v2, float v3) => GL.Uniform3(location, v1, v2, v3);
     public void SetUniform(int location, Vector4 value) => GL.Uniform4(location, value);
+    public void SetUniform(int location, Color4 value) => GL.Uniform4(location, value);
     public void SetUniform(int location, float v1, float v2, float v3, float v4) => GL.Uniform4(location, v1, v2, v3, v4);
     public void SetUniform(int location, Matrix4 value) => GL.UniformMatrix4(location, false, ref value);
 
@@ -88,6 +89,7 @@ public class ShaderLoader : IDisposable
     public void SetUniform(string locationName, Vector3 value) => SetUniform(GetUniformLocation(locationName), value);
     public void SetUniform(string locationName, float v1, float v2, float v3) => SetUniform(GetUniformLocation(locationName), v1, v2, v3);
     public void SetUniform(string locationName, Vector4 value) => SetUniform(GetUniformLocation(locationName), value);
+    public void SetUniform(string locationName, Color4 value) => SetUniform(GetUniformLocation(locationName), value);
     public void SetUniform(string locationName, float v1, float v2, float v3, float v4) => SetUniform(GetUniformLocation(locationName), v1, v2, v3, v4);
     public void SetUniform(string locationName, Matrix4 value) => SetUniform(GetUniformLocation(locationName), value);
 
