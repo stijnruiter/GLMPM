@@ -17,8 +17,8 @@ public class PlotWindow : GameWindow
         UpdateFrequency = 60;
         GL.ClearColor(Background);
     }
-
-    private Color4 Background { get; set; } = Color4.White;
+    private Color4 _background = Color4.White;
+    public Color4 Background { get => _background; set { _background = value; GL.ClearColor(value); } }
     public Action Draw { get; set; }
 
     protected override void OnRenderFrame(FrameEventArgs args)

@@ -5,7 +5,7 @@ using RenderCommon.Shaders;
 
 namespace RenderCommon;
 
-internal class RectangleRenderer : IDisposable
+public class RectangleRenderer : IDisposable
 {
     private float[] _vertices =
     {

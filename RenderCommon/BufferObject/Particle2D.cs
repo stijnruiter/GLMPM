@@ -1,7 +1,9 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace RenderCommon.BufferObject;
 
+[DebuggerDisplay("X={Position.X}, Y={Position.Y}")]
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct Particle2D : IBoundingBox
 {
