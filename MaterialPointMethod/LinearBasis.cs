@@ -20,8 +20,10 @@ internal class LinearBasis : BasisFunction
 {
     public LinearBasis(float[] nodes)
     {
+        ArgumentOutOfRangeException.ThrowIfLessThan(nodes.Length, 2);
+
         if (!MathFunctions.IsIncreasing(nodes))
-            throw new Exception("Nodes should be increasing.");
+            throw new ArgumentException("Nodes should be increasing.");
 
         _nodes = nodes;
     }
