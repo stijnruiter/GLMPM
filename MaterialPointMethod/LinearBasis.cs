@@ -1,18 +1,27 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Numerics;
 
 namespace MaterialPointMethod;
 
-internal class LinearBasis
+public enum SplineType
 {
-    private float[] _nodes;
+    Linear
+}
+
+public interface BasisFunction
+{
+    public SplineType Type { get; }
+    public Matrix<float> Sample(Vector<float> x);
+    public Matrix<float> Derivative(Vector<float> x);
+}
+
+internal class LinearBasis : BasisFunction
+{
     public LinearBasis(float[] nodes)
     {
         if (!MathFunctions.IsIncreasing(nodes))
-            throw new System.Exception("Nodes should be increasing.");
+            throw new Exception("Nodes should be increasing.");
 
         _nodes = nodes;
     }
@@ -37,9 +46,7 @@ internal class LinearBasis
     public float[] Sample(float x)
     {
         var index = GetLeftIndex(x);
-        if (index < 0) 
-            throw new ArgumentOutOfRangeException();
-        
+        ArgumentOutOfRangeException.ThrowIfNegative(index);
         var values = new float[_nodes.Length];
         values[index] = (_nodes[index + 1] - x) / (_nodes[index + 1] - _nodes[index]);
         values[index + 1] = (x - _nodes[index]) / (_nodes[index + 1] - _nodes[index]);
@@ -52,24 +59,20 @@ internal class LinearBasis
         for(var i = 0; i < x.Length; i++)
         {
             var index = GetLeftIndex(x[i]);
-            if (index < 0)
-                throw new ArgumentOutOfRangeException();
-            
+            ArgumentOutOfRangeException.ThrowIfNegative(index);
             values[i, index] = (_nodes[index + 1] - x[i]) / (_nodes[index + 1] - _nodes[index]);
             values[i, index + 1] = (x[i] - _nodes[index]) / (_nodes[index + 1] - _nodes[index]);
         }
         return values;
     }
     
-    public Matrix<float> Sample(MathNet.Numerics.LinearAlgebra.Vector<float> x)
+    public Matrix<float> Sample(Vector<float> x)
     {
         var values = _matrixBuilder.Dense(x.Count, _nodes.Length);
         for(var i = 0; i < x.Count; i++)
         {
             var index = GetLeftIndex(x[i]);
-            if (index < 0)
-                throw new ArgumentOutOfRangeException();
-            
+            ArgumentOutOfRangeException.ThrowIfNegative(index);
             values[i, index] = (_nodes[index + 1] - x[i]) / (_nodes[index + 1] - _nodes[index]);
             values[i, index + 1] = (x[i] - _nodes[index]) / (_nodes[index + 1] - _nodes[index]);
         }
@@ -82,44 +85,28 @@ internal class LinearBasis
         for (var i = 0; i < x.Length; i++)
         {
             var index = GetLeftIndex(x[i]);
-            if (index < 0)
-                throw new ArgumentOutOfRangeException();
-
+            ArgumentOutOfRangeException.ThrowIfNegative(index);
             values[i, index] = - 1f / (_nodes[index + 1] - _nodes[index]);
             values[i, index + 1] = 1f / (_nodes[index + 1] - _nodes[index]);
         }
         return values;
     }
 
-    public Matrix<float> Derivative(MathNet.Numerics.LinearAlgebra.Vector<float> x)
+    public Matrix<float> Derivative(Vector<float> x)
     {
         var values = _matrixBuilder.Dense(x.Count, _nodes.Length);
         for (var i = 0; i < x.Count; i++)
         {
             var index = GetLeftIndex(x[i]);
-            if (index < 0)
-                throw new ArgumentOutOfRangeException();
-
+            ArgumentOutOfRangeException.ThrowIfNegative(index);
             values[i, index] = -1f / (_nodes[index + 1] - _nodes[index]);
             values[i, index + 1] = 1f / (_nodes[index + 1] - _nodes[index]);
         }
         return values;
     }
 
+    private float[] _nodes;
     private MatrixBuilder<float> _matrixBuilder = Matrix<float>.Build;
 
-
+    public SplineType Type { get; } = SplineType.Linear;
 }
-
-//internal class LinearBasis
-//{
-//    public float[] _knots;
-//    public LinearBasis(float[] knots)
-//    {
-//        if (!MathFunctions.IsIncreasing(knots))
-//            throw new System.Exception("KnotVector should be increasing.");
-//
-//        _knots = knots;
-//    }
-//}
-//

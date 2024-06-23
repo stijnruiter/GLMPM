@@ -2,7 +2,6 @@
 
 namespace MaterialPointMethod;
 
-
 internal class Program
 {
     private static LineRenderer LineRender;
@@ -11,9 +10,10 @@ internal class Program
 
     static void Main(string[] args)
     {
-        var vibBarSimulation = new VibratingBar1D(21, 200);
+        var vibBarSimulation = new VibratingBar1D(11, 100);
         Window = new PlotWindow(800, 800, "Vibrating bar")
         {
+            Background = OpenTK.Mathematics.Color4.Black,
             Draw = () =>
             {
                 vibBarSimulation.NextStep();
